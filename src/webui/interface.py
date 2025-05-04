@@ -62,8 +62,9 @@ def create_ui(theme_name="Ocean"):
         with gr.Row():
             gr.Markdown(
                 """
-                # 🌐 Browser Use WebUI
-                ### Control your browser with AI assistance
+                # 🤖 AMD Web Agent Demo
+                ## Serving multiple models powered by a single MI300X  
+                ### A modified version of 🌐 Browser Use WebUI
                 """,
                 elem_classes=["header-text"],
             )

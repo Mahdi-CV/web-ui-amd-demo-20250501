@@ -51,6 +51,11 @@ from pydantic import SecretStr
 
 from src.utils import config
 
+amd_model_ports = {
+    "Qwen3-30B-A3": "8000",
+    "Llama-4-Scout-17B-16E-Instruct": "8001",
+    "DeepSeek-R1-Distill-Qwen-14B": "8002",
+}
 
 class DeepSeekR1ChatOpenAI(ChatOpenAI):
 
@@ -322,6 +327,17 @@ def get_llm_model(provider: str, **kwargs):
             base_url=base_url,
             model_name=kwargs.get("model_name", "Qwen/QwQ-32B"),
             temperature=kwargs.get("temperature", 0.0),
+        )
+    elif provider == "amd-vllm-demo":
+        model_name = kwargs.get("model_name", "Qwen3-30B-A3")
+        port = amd_model_ports.get(model_name, "8000")  # default to 8001 if not found
+        base_url = f"http://localhost:{port}/v1"
+        
+        return ChatOpenAI(
+            model=model_name,
+            temperature=kwargs.get("temperature", 0.0),
+            base_url=base_url,
+            api_key="abc-123"
         )
     else:
         raise ValueError(f"Unsupported provider: {provider}")
